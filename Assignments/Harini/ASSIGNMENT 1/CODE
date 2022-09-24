@@ -1,0 +1,75 @@
+int trig = 1;
+int echo = 3;
+void setup()
+{
+  pinMode(trig, OUTPUT);
+  pinMode(echo, INPUT);
+  Serial.begin(9600);
+  pinMode(8,INPUT);
+  pinMode(12,OUTPUT);
+}
+
+void loop()
+{
+  //ultrasonic sensor
+  digitalWrite(trig,LOW);
+  digitalWrite(echo,HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trig,LOW);
+  float dur = pulseIn(echo,HIGH);
+  float dist = (dur*0.0343)/2;
+  Serial.print("distance:");
+  Serial.println(dist);
+ 
+  //led
+  if(dist>=100)
+  {
+    digitalWrite(4,HIGH);
+  }
+  else
+  {
+    digitalWrite(4,LOW);
+  }
+ 
+  //motion sensor
+  int m=digitalRead(8);
+  Serial.print("motion detected:");
+  Serial.println(m);
+  if(m==1)
+  {
+    Serial.println("yes");
+  }
+  else
+  {
+    Serial.println("no");
+  }
+ 
+  //buzzer
+   if(m==1)
+  {
+    digitalWrite(12,HIGH);
+  }
+  else
+  {
+    digitalWrite(12,LOW);
+  }
+  //temperature sensor
+  double a= analogRead(A2);
+  double t=(((a/1024)*5)-0.5)*100;
+  Serial.print("Temp Value: ");
+  Serial.println(t);
+  delay(1000);
+ 
+  //led
+  if(t>=100)
+  {
+    digitalWrite(7,HIGH);
+  }
+  else
+  {
+    digitalWrite(7,LOW);
+  }
+ }
+
+
+
